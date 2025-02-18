@@ -1,0 +1,3 @@
+#!/bin/bash
+
+singularity exec /path/to/aretomo3-2.sif AreTomo3 $@
