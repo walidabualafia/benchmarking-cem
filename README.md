@@ -22,3 +22,8 @@ singularity build aretomo3-2.sif Singularity
 
 ## Executing AreTomo3
 We can use a script to wrap the call to `singularity`. The result is always similar to `bin/AreTomo3`. Instead of calling the container excplicitly, users and other software can just call this script. By this approach, we can use the containerized tool in software pipelines without risking breaking current flows.
+
+To test the container, modify the path in `bin/AreTomo3`, then execute:
+```sh
+./bin/AreTomo3
+```
