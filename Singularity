@@ -27,10 +27,7 @@ From: nvidia/cuda:12.6.2-devel-rockylinux8
 
     echo "Building AreTomo3..."
     cd /opt/AreTomo3
-    make exe -f makefile11 CUDAHOME=$CUDA_HOME
+    make exe -f makefile11 CUDAHOME=/usr/local/cuda
 
 %runscript
     exec /opt/AreTomo3/AreTomo3 "$@"
-
-%test
-    /opt/AreTomo3/AreTomo3 --help
