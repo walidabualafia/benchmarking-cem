@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-lc"]
 RUN mamba install -y \
       -c conda-forge \
       -c bioconda \
-      imod=5.1.3 && \
+      conda-forge::imod && \
     mamba clean --all -f -y
 
 # Verify that imod is on PATH
