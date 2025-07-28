@@ -28,13 +28,13 @@ RUN mkdir -p /imod && \
     wget -O /imod/imod_installer.sh "$IMOD_URL" && \
     chmod +x /imod/imod_installer.sh && \
     # extract embedded tarball
-    sh /imod/imod_installer.sh -extract && \
+    sh /imod/imod_installer.sh -yes && \
     # unpack into /usr/local
-    tar -xzf /IMODtempDir/imod_${IMOD_VERSION}_${IMOD_BUILD}.tar.gz -C /usr/local && \
+    #tar -xzf /IMODtempDir/imod_${IMOD_VERSION}_${IMOD_BUILD}.tar.gz -C /usr/local && \
     # create standard IMOD directory
-    ln -s /usr/local/imod_${IMOD_VERSION} /usr/local/IMOD && \
+    #ln -s /usr/local/imod_${IMOD_VERSION} /usr/local/IMOD && \
     # copy profile scripts
-    cp /usr/local/IMOD/IMOD-linux.* /etc/profile.d/ && \
+    #cp /usr/local/IMOD/IMOD-linux.* /etc/profile.d/ && \
     # cleanup
     rm -rf /imod /IMODtempDir
 
