@@ -19,13 +19,13 @@ RUN dnf install -y \
 
 # Define IMOD version and download URL (RHEL7 build might extract more cleanly)
 ENV IMOD_VERSION=5.1.3
-ENV IMOD_URL=https://bio3d.colorado.edu/imod/AMD64-RHEL5/imod_${IMOD_VERSION}_RHEL7-64_CUDA12.0.sh
+ENV IMOD_URL=https://bio3d.colorado.edu/imod/AMD64-RHEL5/imod_${IMOD_VERSION}_RHEL8-64_CUDA12.0.sh
 
 # Download and install IMOD non-interactively
 RUN wget "$IMOD_URL" -O /tmp/imod_installer.sh && \
     chmod +x /tmp/imod_installer.sh && \
     # Use '-y' flag if supported, otherwise pipe 'yes'
-    ( /tmp/imod_installer.sh -y || yes | /tmp/imod_installer.sh ) && \
+    ( /tmp/imod_installer.sh || Y | /tmp/imod_installer.sh ) && \
     rm /tmp/imod_installer.sh
 
 # Add IMOD binaries and libraries to PATH and LD_LIBRARY_PATH
