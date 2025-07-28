@@ -4,10 +4,11 @@ FROM rockylinux:8
 # Use bash login shell so environment variables work
 SHELL ["/bin/bash", "-lc"]
 
-# Install prerequisites: wget, bzip2, Java, OpenGL libraries
+# Install prerequisites: wget, bzip2, tar, Java, OpenGL libraries
 RUN dnf install -y \
       wget \
       bzip2 \
+      tar \
       java-11-openjdk-headless \
       mesa-libGL \
       mesa-libGLU \
@@ -16,14 +17,15 @@ RUN dnf install -y \
       libXi && \
     dnf clean all
 
-# Define IMOD version and installer URL
+# Define IMOD version and download URL (RHEL7 build might extract more cleanly)
 ENV IMOD_VERSION=5.1.3
-ENV IMOD_URL=https://bio3d.colorado.edu/imod/AMD64-RHEL5/imod_${IMOD_VERSION}_RHEL8-64_CUDA12.0.sh
+ENV IMOD_URL=https://bio3d.colorado.edu/imod/AMD64-RHEL5/imod_${IMOD_VERSION}_RHEL7-64_CUDA12.0.sh
 
 # Download and install IMOD non-interactively
 RUN wget "$IMOD_URL" -O /tmp/imod_installer.sh && \
     chmod +x /tmp/imod_installer.sh && \
-    yes | /tmp/imod_installer.sh && \
+    # Use '-y' flag if supported, otherwise pipe 'yes'
+    ( /tmp/imod_installer.sh -y || yes | /tmp/imod_installer.sh ) && \
     rm /tmp/imod_installer.sh
 
 # Add IMOD binaries and libraries to PATH and LD_LIBRARY_PATH
