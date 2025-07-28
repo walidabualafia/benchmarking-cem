@@ -1,7 +1,10 @@
-# Use RHEL8-compatible base image
-FROM centos:8
+# Use Rocky Linux 8 for RHEL8 binary compatibility
+FROM rockylinux:8
 
-# Install prerequisites: wget, Java, OpenGL libraries
+# Use bash login shell so environment variables work
+SHELL ["/bin/bash", "-lc"]
+
+# Install prerequisites: wget, bzip2, Java, OpenGL libraries
 RUN dnf install -y \
       wget \
       bzip2 \
@@ -10,23 +13,22 @@ RUN dnf install -y \
       mesa-libGLU \
       libXrandr \
       libXinerama \
-      libXi \
-    && dnf clean all
+      libXi && \
+    dnf clean all
 
-# Set IMOD version and download URL
+# Define IMOD version and installer URL
 ENV IMOD_VERSION=5.1.3
 ENV IMOD_URL=https://bio3d.colorado.edu/imod/AMD64-RHEL5/imod_${IMOD_VERSION}_RHEL8-64_CUDA12.0.sh
 
-# Download and install IMOD
-RUN wget ${IMOD_URL} -O /tmp/imod_installer.sh \
-    && chmod +x /tmp/imod_installer.sh \
-    # Accept license and install to /usr/local/IMOD
-    && yes | /tmp/imod_installer.sh \
-    && rm /tmp/imod_installer.sh
+# Download and install IMOD non-interactively
+RUN wget "$IMOD_URL" -O /tmp/imod_installer.sh && \
+    chmod +x /tmp/imod_installer.sh && \
+    yes | /tmp/imod_installer.sh && \
+    rm /tmp/imod_installer.sh
 
-# Add IMOD binaries & libraries to the environment
-ENV PATH=/usr/local/IMOD/bin:${PATH}
-ENV LD_LIBRARY_PATH=/usr/local/IMOD/lib:${LD_LIBRARY_PATH}
+# Add IMOD binaries and libraries to PATH and LD_LIBRARY_PATH
+ENV PATH=/usr/local/IMOD/bin:$PATH
+ENV LD_LIBRARY_PATH=/usr/local/IMOD/lib
 
 # Default to an interactive shell
-CMD ["/bin/bash"]
+CMD ["bash"]
