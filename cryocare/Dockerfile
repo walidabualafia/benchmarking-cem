@@ -12,7 +12,7 @@ RUN mamba create -n cryocare_11 \
 
 # Activate the environment, install TensorFlow 2.4 and cryoCARE via pip
 RUN /bin/bash -lc "\
-    conda activate cryocare_11 && \
+    source activate cryocare_11 && \
     pip install --no-cache-dir tensorflow==2.4 cryoCARE && \
     conda clean --all -f -y"
 
